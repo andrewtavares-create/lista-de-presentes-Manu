@@ -7,13 +7,13 @@ const CONFIG = {
 
   // --- SUPABASE (banco de dados) ---
   supabase: {
-    url: "COLE_AQUI_SUA_URL_DO_SUPABASE",       // ex: https://xyzxyz.supabase.co
-    anonKey: "COLE_AQUI_SUA_CHAVE_ANON",        // chave "anon public" do Supabase
+    url: "https://glqtpkdwybncytcqojev.supabase.co",       // ex: https://xyzxyz.supabase.co
+    anonKey: "sb_publishable_wmOsokiLAcXWkn5TnVFk4Q_BQKB7LIn",        // chave "anon public" do Supabase
   },
 
   // --- ADMIN (página de Andrew) ---
   admin: {
-    senha: "andrew123",   // troque por uma senha que só você sabe
+    senha: "andrew09",   // troque por uma senha que só você sabe
   },
 
   // --- TEXTOS DO SITE ---
