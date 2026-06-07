@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Desejos da Manu 🎁</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 40%, #e1bee7 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      color: #880e4f;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .header p {
+      color: #ad1457;
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(136,14,79,0.12);
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .card h2 {
+      color: #880e4f;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    label {
+      display: block;
+      color: #6d1b4a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 16px;
+    }
+
+    label:first-of-type { margin-top: 0; }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #f8bbd0;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #e91e8c;
+    }
+
+    .valor-wrap {
+      position: relative;
+    }
+
+    .valor-wrap span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ad1457;
+      font-weight: 600;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .valor-wrap input {
+      padding-left: 32px;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #b06090;
+      margin-top: 4px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: linear-gradient(135deg, #e91e8c, #ad1457);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    button[type="submit"]:hover { opacity: 0.9; }
+    button[type="submit"]:active { transform: scale(0.98); }
+    button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2e7d32;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.error { background: #c62828; }
+    .toast.show { display: block; animation: slideUp 0.3s ease; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .lista-section {
+      width: 100%;
+      max-width: 480px;
+      margin-top: 28px;
+    }
+
+    .lista-section h3 {
+      color: #880e4f;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .item-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 12px rgba(136,14,79,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-info { flex: 1; min-width: 0; }
+
+    .item-nome {
+      font-weight: 700;
+      color: #333;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-link a {
+      font-size: 0.8rem;
+      color: #e91e8c;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .item-link a:hover { text-decoration: underline; }
+
+    .item-valor {
+      font-weight: 800;
+      color: #880e4f;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+
+    .loading { text-align: center; color: #ad1457; padding: 12px; font-size: 0.9rem; }
+    .empty { text-align: center; color: #b06090; padding: 12px; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1 id="titulo"></h1>
+    <p id="subtitulo"></p>
+  </div>
+
+  <div class="card">
+    <h2>✨ Adicionar desejo</h2>
+    <form id="form">
+
+      <label for="nome">Nome do presente *</label>
+      <input type="text" id="nome" placeholder="Ex: Perfume Lancôme, Tenis Nike..." required />
+
+      <label for="link">Link (opcional)</label>
+      <input type="url" id="link" placeholder="https://..." />
+      <div class="hint">Cole o link do produto se tiver 😊</div>
+
+      <label for="valor">Valor aproximado *</label>
+      <div class="valor-wrap">
+        <span>R$</span>
+        <input type="number" id="valor" placeholder="0,00" min="0" step="0.01" required />
+      </div>
+
+      <button type="submit" id="btn">Adicionar à lista 💖</button>
+    </form>
+  </div>
+
+  <div class="lista-section">
+    <h3>Minha lista de desejos 🛍️</h3>
+    <div id="lista"><div class="loading">Carregando...</div></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    document.getElementById('titulo').textContent = CONFIG.textos.titulo;
+    document.getElementById('subtitulo').textContent = CONFIG.textos.subtitulo;
+
+    const { createClient } = supabase;
+    const db = createClient(CONFIG.supabase.url, CONFIG.supabase.anonKey);
+
+    async function carregarLista() {
+      const { data, error } = await db
+        .from('presentes')
+        .select('*')
+        .order('criado_em', { ascending: false });
+
+      const lista = document.getElementById('lista');
+
+      if (error) {
+        lista.innerHTML = '<div class="empty">Erro ao carregar a lista 😕</div>';
+        return;
+      }
+
+      if (!data.length) {
+        lista.innerHTML = '<div class="empty">Nenhum desejo ainda... adicione o primeiro! 🌸</div>';
+        return;
+      }
+
+      lista.innerHTML = data.map(item => `
+        <div class="item-card">
+          <div class="item-info">
+            <div class="item-nome">${escHtml(item.nome)}</div>
+            ${item.link ? `<div class="item-link"><a href="${escHtml(item.link)}" target="_blank" rel="noopener">Ver produto 🔗</a></div>` : ''}
+          </div>
+          <div class="item-valor">R$ ${Number(item.valor).toLocaleString('pt-BR', {minimumFractionDigits:2})}</div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn');
+      btn.disabled = true;
+      btn.textContent = 'Adicionando...';
+
+      const nome = document.getElementById('nome').value.trim();
+      const link = document.getElementById('link').value.trim() || null;
+      const valor = parseFloat(document.getElementById('valor').value);
+
+      const { error } = await db.from('presentes').insert([{ nome, link, valor }]);
+
+      btn.disabled = false;
+      btn.textContent = 'Adicionar à lista 💖';
+
+      if (error) {
+        mostrarToast('Erro ao salvar. Tente de novo 😕', 'error');
+        return;
+      }
+
+      document.getElementById('form').reset();
+      mostrarToast('Desejo adicionado! 🎉');
+      carregarLista();
+    });
+
+    function mostrarToast(msg, tipo = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (tipo ? ' ' + tipo : '');
+      setTimeout(() => { t.className = 'toast'; }, 3000);
+    }
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    carregarLista();
+  </script>
+</body>
+</html>

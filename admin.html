@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Lista da Manu</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #e8f5e9 0%, #f3e5f5 100%);
+      padding: 24px 16px 40px;
+    }
+
+    /* ---- Login ---- */
+    #tela-login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90vh;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .login-card h2 { color: #333; font-size: 1.4rem; margin-bottom: 6px; }
+    .login-card p  { color: #888; font-size: 0.9rem; margin-bottom: 24px; }
+
+    .login-card input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .login-card input:focus { border-color: #7b1fa2; }
+
+    .login-card button {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #7b1fa2, #4a148c);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-card button:hover { opacity: 0.9; }
+    .erro-login { color: #c62828; font-size: 0.85rem; margin-top: 10px; }
+
+    /* ---- Admin painel ---- */
+    #tela-admin { display: none; max-width: 700px; margin: 0 auto; }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .admin-header h1 { color: #4a148c; font-size: clamp(1.2rem, 4vw, 1.8rem); }
+
+    .admin-header .sair {
+      background: none;
+      border: 2px solid #7b1fa2;
+      color: #7b1fa2;
+      border-radius: 10px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .admin-header .sair:hover { background: #f3e5f5; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    .stat-box .valor { font-size: 1.5rem; font-weight: 800; color: #4a148c; }
+    .stat-box .label { font-size: 0.75rem; color: #888; margin-top: 4px; }
+
+    .filtros {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filtros input {
+      flex: 1;
+      min-width: 160px;
+      padding: 10px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .filtros input:focus { border-color: #7b1fa2; }
+
+    .filtros select {
+      padding: 10px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    thead { background: linear-gradient(135deg, #7b1fa2, #4a148c); }
+    thead th { color: #fff; padding: 14px 16px; text-align: left; font-size: 0.85rem; font-weight: 600; }
+
+    tbody tr { border-bottom: 1px solid #f5f5f5; transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f9f0ff; }
+
+    tbody td { padding: 13px 16px; font-size: 0.9rem; color: #333; vertical-align: middle; }
+
+    .td-nome { font-weight: 600; }
+    .td-valor { font-weight: 700; color: #4a148c; white-space: nowrap; }
+    .td-link a { color: #7b1fa2; text-decoration: none; font-size: 0.82rem; }
+    .td-link a:hover { text-decoration: underline; }
+    .sem-link { color: #ccc; font-size: 0.8rem; }
+
+    .td-data { color: #999; font-size: 0.78rem; white-space: nowrap; }
+
+    .btn-deletar {
+      background: none;
+      border: none;
+      color: #ef9a9a;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .btn-deletar:hover { color: #c62828; background: #ffebee; }
+
+    .loading, .empty { text-align: center; color: #888; padding: 24px; font-size: 0.9rem; }
+
+    /* mobile: cards instead of table */
+    @media (max-width: 540px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tbody tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 12px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+        border-bottom: none;
+      }
+      tbody td { padding: 4px 0; border: none; }
+      tbody td::before {
+        content: attr(data-label) ': ';
+        font-weight: 600;
+        color: #7b1fa2;
+        font-size: 0.78rem;
+      }
+      .btn-deletar { float: right; margin-top: -4px; }
+    }
+
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2e7d32;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+    .toast.error { background: #c62828; }
+    .toast.show { display: block; animation: slideUp 0.3s ease; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <div id="tela-login">
+    <div class="login-card">
+      <h2>🔒 Área do Andrew</h2>
+      <p>Digite a senha para ver a lista da Manu</p>
+      <input type="password" id="senha-input" placeholder="Senha..." />
+      <button onclick="entrar()">Entrar</button>
+      <div class="erro-login" id="erro-login"></div>
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div id="tela-admin">
+    <div class="admin-header">
+      <h1 id="titulo-admin"></h1>
+      <button class="sair" onclick="sair()">Sair</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="valor" id="stat-total">–</div>
+        <div class="label">Desejos na lista</div>
+      </div>
+      <div class="stat-box">
+        <div class="valor" id="stat-valor">–</div>
+        <div class="label">Valor total</div>
+      </div>
+      <div class="stat-box">
+        <div class="valor" id="stat-medio">–</div>
+        <div class="label">Valor médio</div>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <input type="text" id="busca" placeholder="🔍 Buscar por nome..." oninput="filtrar()" />
+      <select id="ordem" onchange="filtrar()">
+        <option value="recente">Mais recente</option>
+        <option value="antigo">Mais antigo</option>
+        <option value="maior">Maior valor</option>
+        <option value="menor">Menor valor</option>
+      </select>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Presente</th>
+          <th>Link</th>
+          <th>Valor</th>
+          <th>Data</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="corpo-tabela">
+        <tr><td colspan="5" class="loading">Carregando...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    document.getElementById('titulo-admin').textContent = CONFIG.textos.tituloAdmin;
+
+    const { createClient } = supabase;
+    const db = createClient(CONFIG.supabase.url, CONFIG.supabase.anonKey);
+
+    let todosItens = [];
+
+    // Enter key no campo de senha
+    document.getElementById('senha-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') entrar();
+    });
+
+    function entrar() {
+      const senha = document.getElementById('senha-input').value;
+      if (senha === CONFIG.admin.senha) {
+        document.getElementById('tela-login').style.display = 'none';
+        document.getElementById('tela-admin').style.display = 'block';
+        carregarDados();
+      } else {
+        document.getElementById('erro-login').textContent = 'Senha incorreta 🙈';
+      }
+    }
+
+    function sair() {
+      document.getElementById('tela-login').style.display = 'flex';
+      document.getElementById('tela-admin').style.display = 'none';
+      document.getElementById('senha-input').value = '';
+    }
+
+    async function carregarDados() {
+      const { data, error } = await db
+        .from('presentes')
+        .select('*')
+        .order('criado_em', { ascending: false });
+
+      if (error) {
+        mostrarToast('Erro ao carregar dados', 'error');
+        return;
+      }
+
+      todosItens = data;
+      atualizarStats();
+      filtrar();
+    }
+
+    function atualizarStats() {
+      const total = todosItens.length;
+      const soma = todosItens.reduce((s, i) => s + Number(i.valor), 0);
+      const medio = total ? soma / total : 0;
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-valor').textContent = 'R$ ' + soma.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('stat-medio').textContent = 'R$ ' + medio.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    function filtrar() {
+      const busca = document.getElementById('busca').value.toLowerCase();
+      const ordem = document.getElementById('ordem').value;
+
+      let itens = todosItens.filter(i => i.nome.toLowerCase().includes(busca));
+
+      itens.sort((a, b) => {
+        if (ordem === 'recente') return new Date(b.criado_em) - new Date(a.criado_em);
+        if (ordem === 'antigo')  return new Date(a.criado_em) - new Date(b.criado_em);
+        if (ordem === 'maior')   return Number(b.valor) - Number(a.valor);
+        if (ordem === 'menor')   return Number(a.valor) - Number(b.valor);
+      });
+
+      renderTabela(itens);
+    }
+
+    function renderTabela(itens) {
+      const tbody = document.getElementById('corpo-tabela');
+
+      if (!itens.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty">Nenhum item encontrado 🌸</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = itens.map(item => {
+        const data = new Date(item.criado_em).toLocaleDateString('pt-BR', {
+          day: '2-digit', month: '2-digit', year: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        });
+        return `
+        <tr>
+          <td class="td-nome" data-label="Presente">${escHtml(item.nome)}</td>
+          <td class="td-link" data-label="Link">${item.link
+            ? `<a href="${escHtml(item.link)}" target="_blank" rel="noopener">Ver produto 🔗</a>`
+            : '<span class="sem-link">–</span>'}</td>
+          <td class="td-valor" data-label="Valor">R$ ${Number(item.valor).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+          <td class="td-data" data-label="Data">${data}</td>
+          <td data-label=""><button class="btn-deletar" onclick="deletar(${item.id})" title="Remover">🗑️</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function deletar(id) {
+      if (!confirm('Remover este item da lista?')) return;
+      const { error } = await db.from('presentes').delete().eq('id', id);
+      if (error) { mostrarToast('Erro ao remover', 'error'); return; }
+      todosItens = todosItens.filter(i => i.id !== id);
+      atualizarStats();
+      filtrar();
+      mostrarToast('Item removido ✓');
+    }
+
+    function mostrarToast(msg, tipo = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (tipo ? ' ' + tipo : '');
+      setTimeout(() => { t.className = 'toast'; }, 3000);
+    }
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
