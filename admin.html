@@ -34,189 +34,132 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       text-align: center;
     }
-
     .login-card h2 { color: #333; font-size: 1.4rem; margin-bottom: 6px; }
     .login-card p  { color: #888; font-size: 0.9rem; margin-bottom: 24px; }
-
     .login-card input {
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-size: 1rem;
-      outline: none;
-      margin-bottom: 16px;
-      transition: border-color 0.2s;
+      width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0;
+      border-radius: 12px; font-size: 1rem; outline: none;
+      margin-bottom: 16px; transition: border-color 0.2s;
     }
-
     .login-card input:focus { border-color: #7b1fa2; }
-
     .login-card button {
-      width: 100%;
-      padding: 13px;
+      width: 100%; padding: 13px;
       background: linear-gradient(135deg, #7b1fa2, #4a148c);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
     }
-
     .login-card button:hover { opacity: 0.9; }
     .erro-login { color: #c62828; font-size: 0.85rem; margin-top: 10px; }
 
-    /* ---- Admin painel ---- */
-    #tela-admin { display: none; max-width: 700px; margin: 0 auto; }
+    /* ---- Admin ---- */
+    #tela-admin { display: none; max-width: 760px; margin: 0 auto; }
 
     .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
     }
-
     .admin-header h1 { color: #4a148c; font-size: clamp(1.2rem, 4vw, 1.8rem); }
-
     .admin-header .sair {
-      background: none;
-      border: 2px solid #7b1fa2;
-      color: #7b1fa2;
-      border-radius: 10px;
-      padding: 6px 16px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
+      background: none; border: 2px solid #7b1fa2; color: #7b1fa2;
+      border-radius: 10px; padding: 6px 16px; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer;
     }
-
     .admin-header .sair:hover { background: #f3e5f5; }
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px; margin-bottom: 24px;
     }
+    .stat-box { background: #fff; border-radius: 14px; padding: 16px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .stat-box .valor { font-size: 1.4rem; font-weight: 800; color: #4a148c; }
+    .stat-box .label { font-size: 0.72rem; color: #888; margin-top: 4px; }
+    .stat-box.verde .valor { color: #2e7d32; }
+    .stat-box.azul  .valor { color: #1565c0; }
+    .stat-box.laranja .valor { color: #e65100; }
 
-    .stat-box {
-      background: #fff;
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    }
-
-    .stat-box .valor { font-size: 1.5rem; font-weight: 800; color: #4a148c; }
-    .stat-box .label { font-size: 0.75rem; color: #888; margin-top: 4px; }
-
-    .filtros {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
+    .filtros { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
     .filtros input {
-      flex: 1;
-      min-width: 160px;
-      padding: 10px 14px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      outline: none;
+      flex: 1; min-width: 160px; padding: 10px 14px;
+      border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.9rem; outline: none;
     }
-
     .filtros input:focus { border-color: #7b1fa2; }
-
     .filtros select {
-      padding: 10px 14px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      background: #fff;
-      cursor: pointer;
-      outline: none;
+      padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 10px;
+      font-size: 0.9rem; background: #fff; cursor: pointer; outline: none;
     }
 
     table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      width: 100%; border-collapse: collapse; background: #fff;
+      border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07);
     }
-
     thead { background: linear-gradient(135deg, #7b1fa2, #4a148c); }
-    thead th { color: #fff; padding: 14px 16px; text-align: left; font-size: 0.85rem; font-weight: 600; }
-
+    thead th { color: #fff; padding: 14px 12px; text-align: left; font-size: 0.82rem; font-weight: 600; }
     tbody tr { border-bottom: 1px solid #f5f5f5; transition: background 0.15s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #f9f0ff; }
-
-    tbody td { padding: 13px 16px; font-size: 0.9rem; color: #333; vertical-align: middle; }
+    tbody td { padding: 11px 12px; font-size: 0.88rem; color: #333; vertical-align: middle; }
 
     .td-nome { font-weight: 600; }
     .td-valor { font-weight: 700; color: #4a148c; white-space: nowrap; }
-    .td-link a { color: #7b1fa2; text-decoration: none; font-size: 0.82rem; }
+    .td-link a { color: #7b1fa2; text-decoration: none; font-size: 0.8rem; }
     .td-link a:hover { text-decoration: underline; }
     .sem-link { color: #ccc; font-size: 0.8rem; }
+    .td-data { color: #999; font-size: 0.75rem; white-space: nowrap; }
 
-    .td-data { color: #999; font-size: 0.78rem; white-space: nowrap; }
+    /* ---- Status ---- */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+    }
+    .badge.pendente  { background: #fff3e0; color: #e65100; }
+    .badge.a_caminho { background: #e3f2fd; color: #1565c0; }
+    .badge.comprado  { background: #e8f5e9; color: #2e7d32; }
+
+    .status-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+    .btn-status {
+      border: none; border-radius: 8px; padding: 5px 10px;
+      font-size: 0.75rem; font-weight: 600; cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .btn-status:hover { opacity: 0.85; }
+    .btn-status:active { transform: scale(0.96); }
+    .btn-status:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-status.pendente  { background: #fff3e0; color: #e65100; }
+    .btn-status.a_caminho { background: #e3f2fd; color: #1565c0; }
+    .btn-status.comprado  { background: #e8f5e9; color: #2e7d32; }
+    .btn-status.ativo     { outline: 2px solid currentColor; }
 
     .btn-deletar {
-      background: none;
-      border: none;
-      color: #ef9a9a;
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 2px 6px;
-      border-radius: 6px;
-      transition: color 0.2s, background 0.2s;
+      background: none; border: none; color: #ef9a9a;
+      cursor: pointer; font-size: 1rem; padding: 4px 6px;
+      border-radius: 6px; transition: color 0.2s, background 0.2s;
     }
-
     .btn-deletar:hover { color: #c62828; background: #ffebee; }
 
     .loading, .empty { text-align: center; color: #888; padding: 24px; font-size: 0.9rem; }
 
-    /* mobile: cards instead of table */
-    @media (max-width: 540px) {
+    /* mobile cards */
+    @media (max-width: 580px) {
       table, thead, tbody, th, td, tr { display: block; }
       thead { display: none; }
       tbody tr {
-        background: #fff;
-        border-radius: 14px;
-        margin-bottom: 12px;
-        padding: 14px 16px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-        border-bottom: none;
+        background: #fff; border-radius: 14px; margin-bottom: 12px;
+        padding: 14px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-bottom: none;
       }
-      tbody td { padding: 4px 0; border: none; }
-      tbody td::before {
-        content: attr(data-label) ': ';
-        font-weight: 600;
-        color: #7b1fa2;
-        font-size: 0.78rem;
-      }
-      .btn-deletar { float: right; margin-top: -4px; }
+      tbody td { padding: 5px 0; border: none; }
+      tbody td::before { content: attr(data-label) ': '; font-weight: 600; color: #7b1fa2; font-size: 0.75rem; display: block; margin-bottom: 2px; }
+      .td-acoes::before { display: none; }
+      .btn-deletar { float: right; }
     }
 
     .toast {
-      display: none;
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #2e7d32;
-      color: #fff;
-      padding: 12px 22px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      z-index: 999;
+      display: none; position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%); background: #2e7d32; color: #fff;
+      padding: 12px 22px; border-radius: 50px; font-weight: 600;
+      font-size: 0.9rem; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 999;
     }
     .toast.error { background: #c62828; }
     .toast.show { display: block; animation: slideUp 0.3s ease; }
@@ -228,7 +171,6 @@
 </head>
 <body>
 
-  <!-- Login -->
   <div id="tela-login">
     <div class="login-card">
       <h2>🔒 Área do Andrew</h2>
@@ -239,7 +181,6 @@
     </div>
   </div>
 
-  <!-- Admin -->
   <div id="tela-admin">
     <div class="admin-header">
       <h1 id="titulo-admin"></h1>
@@ -249,20 +190,34 @@
     <div class="stats">
       <div class="stat-box">
         <div class="valor" id="stat-total">–</div>
-        <div class="label">Desejos na lista</div>
+        <div class="label">Total de desejos</div>
+      </div>
+      <div class="stat-box laranja">
+        <div class="valor" id="stat-pendentes">–</div>
+        <div class="label">Pendentes</div>
+      </div>
+      <div class="stat-box azul">
+        <div class="valor" id="stat-caminho">–</div>
+        <div class="label">A caminho</div>
+      </div>
+      <div class="stat-box verde">
+        <div class="valor" id="stat-comprados">–</div>
+        <div class="label">Já comprei</div>
       </div>
       <div class="stat-box">
         <div class="valor" id="stat-valor">–</div>
         <div class="label">Valor total</div>
       </div>
-      <div class="stat-box">
-        <div class="valor" id="stat-medio">–</div>
-        <div class="label">Valor médio</div>
-      </div>
     </div>
 
     <div class="filtros">
       <input type="text" id="busca" placeholder="🔍 Buscar por nome..." oninput="filtrar()" />
+      <select id="filtro-status" onchange="filtrar()">
+        <option value="">Todos os status</option>
+        <option value="pendente">⏳ Pendente</option>
+        <option value="a_caminho">🚚 A caminho</option>
+        <option value="comprado">✅ Comprado</option>
+      </select>
       <select id="ordem" onchange="filtrar()">
         <option value="recente">Mais recente</option>
         <option value="antigo">Mais antigo</option>
@@ -277,12 +232,13 @@
           <th>Presente</th>
           <th>Link</th>
           <th>Valor</th>
+          <th>Status</th>
           <th>Data</th>
           <th></th>
         </tr>
       </thead>
       <tbody id="corpo-tabela">
-        <tr><td colspan="5" class="loading">Carregando...</td></tr>
+        <tr><td colspan="6" class="loading">Carregando...</td></tr>
       </tbody>
     </table>
   </div>
@@ -297,14 +253,12 @@
 
     let todosItens = [];
 
-    // Enter key no campo de senha
     document.getElementById('senha-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') entrar();
     });
 
     function entrar() {
-      const senha = document.getElementById('senha-input').value;
-      if (senha === CONFIG.admin.senha) {
+      if (document.getElementById('senha-input').value === CONFIG.admin.senha) {
         document.getElementById('tela-login').style.display = 'none';
         document.getElementById('tela-admin').style.display = 'block';
         carregarDados();
@@ -325,10 +279,7 @@
         .select('*')
         .order('criado_em', { ascending: false });
 
-      if (error) {
-        mostrarToast('Erro ao carregar dados', 'error');
-        return;
-      }
+      if (error) { mostrarToast('Erro ao carregar dados', 'error'); return; }
 
       todosItens = data;
       atualizarStats();
@@ -336,20 +287,28 @@
     }
 
     function atualizarStats() {
-      const total = todosItens.length;
-      const soma = todosItens.reduce((s, i) => s + Number(i.valor), 0);
-      const medio = total ? soma / total : 0;
+      const total     = todosItens.length;
+      const pendentes = todosItens.filter(i => i.status === 'pendente').length;
+      const caminho   = todosItens.filter(i => i.status === 'a_caminho').length;
+      const comprados = todosItens.filter(i => i.status === 'comprado').length;
+      const soma      = todosItens.reduce((s, i) => s + Number(i.valor), 0);
 
-      document.getElementById('stat-total').textContent = total;
-      document.getElementById('stat-valor').textContent = 'R$ ' + soma.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      document.getElementById('stat-medio').textContent = 'R$ ' + medio.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('stat-total').textContent    = total;
+      document.getElementById('stat-pendentes').textContent = pendentes;
+      document.getElementById('stat-caminho').textContent  = caminho;
+      document.getElementById('stat-comprados').textContent = comprados;
+      document.getElementById('stat-valor').textContent    = 'R$ ' + soma.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
     }
 
     function filtrar() {
-      const busca = document.getElementById('busca').value.toLowerCase();
-      const ordem = document.getElementById('ordem').value;
+      const busca  = document.getElementById('busca').value.toLowerCase();
+      const status = document.getElementById('filtro-status').value;
+      const ordem  = document.getElementById('ordem').value;
 
-      let itens = todosItens.filter(i => i.nome.toLowerCase().includes(busca));
+      let itens = todosItens.filter(i =>
+        i.nome.toLowerCase().includes(busca) &&
+        (status === '' || i.status === status)
+      );
 
       itens.sort((a, b) => {
         if (ordem === 'recente') return new Date(b.criado_em) - new Date(a.criado_em);
@@ -361,11 +320,17 @@
       renderTabela(itens);
     }
 
+    const BADGE_TEXTO = {
+      pendente:  '⏳ Pendente',
+      a_caminho: '🚚 A caminho',
+      comprado:  '✅ Comprado',
+    };
+
     function renderTabela(itens) {
       const tbody = document.getElementById('corpo-tabela');
 
       if (!itens.length) {
-        tbody.innerHTML = '<tr><td colspan="5" class="empty">Nenhum item encontrado 🌸</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty">Nenhum item encontrado 🌸</td></tr>';
         return;
       }
 
@@ -374,6 +339,16 @@
           day: '2-digit', month: '2-digit', year: '2-digit',
           hour: '2-digit', minute: '2-digit'
         });
+
+        const btns = ['pendente', 'a_caminho', 'comprado'].map(s => `
+          <button
+            class="btn-status ${s} ${item.status === s ? 'ativo' : ''}"
+            onclick="alterarStatus(${item.id}, '${s}', this)"
+            ${item.status === s ? 'disabled' : ''}
+            title="${BADGE_TEXTO[s]}"
+          >${s === 'pendente' ? '⏳' : s === 'a_caminho' ? '🚚' : '✅'} ${s === 'pendente' ? 'Pendente' : s === 'a_caminho' ? 'A caminho' : 'Comprei!'}</button>
+        `).join('');
+
         return `
         <tr>
           <td class="td-nome" data-label="Presente">${escHtml(item.nome)}</td>
@@ -381,10 +356,34 @@
             ? `<a href="${escHtml(item.link)}" target="_blank" rel="noopener">Ver produto 🔗</a>`
             : '<span class="sem-link">–</span>'}</td>
           <td class="td-valor" data-label="Valor">R$ ${Number(item.valor).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+          <td data-label="Status">
+            <div class="status-btns">${btns}</div>
+          </td>
           <td class="td-data" data-label="Data">${data}</td>
-          <td data-label=""><button class="btn-deletar" onclick="deletar(${item.id})" title="Remover">🗑️</button></td>
+          <td class="td-acoes" data-label=""><button class="btn-deletar" onclick="deletar(${item.id})" title="Remover">🗑️</button></td>
         </tr>`;
       }).join('');
+    }
+
+    async function alterarStatus(id, novoStatus, btnClicado) {
+      // desabilita todos os botões da linha durante o update
+      const linha = btnClicado.closest('tr');
+      linha.querySelectorAll('.btn-status').forEach(b => b.disabled = true);
+
+      const { error } = await db.from('presentes').update({ status: novoStatus }).eq('id', id);
+
+      if (error) {
+        mostrarToast('Erro ao atualizar status', 'error');
+        linha.querySelectorAll('.btn-status').forEach(b => b.disabled = false);
+        return;
+      }
+
+      const msgs = { pendente: 'Marcado como pendente', a_caminho: '🚚 A caminho!', comprado: '✅ Comprado!' };
+      mostrarToast(msgs[novoStatus]);
+
+      todosItens = todosItens.map(i => i.id === id ? { ...i, status: novoStatus } : i);
+      atualizarStats();
+      filtrar();
     }
 
     async function deletar(id) {

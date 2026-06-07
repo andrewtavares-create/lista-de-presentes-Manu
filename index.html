@@ -19,23 +19,9 @@
       padding: 24px 16px 40px;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .header h1 {
-      font-size: clamp(1.6rem, 5vw, 2.2rem);
-      color: #880e4f;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .header p {
-      color: #ad1457;
-      margin-top: 8px;
-      font-size: 1rem;
-    }
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); color: #880e4f; font-weight: 800; letter-spacing: -0.5px; }
+    .header p  { color: #ad1457; margin-top: 8px; font-size: 1rem; }
 
     .card {
       background: #fff;
@@ -46,27 +32,12 @@
       max-width: 480px;
     }
 
-    .card h2 {
-      color: #880e4f;
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .card h2 { color: #880e4f; font-size: 1.1rem; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 
-    label {
-      display: block;
-      color: #6d1b4a;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      margin-top: 16px;
-    }
-
+    label { display: block; color: #6d1b4a; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; margin-top: 16px; }
     label:first-of-type { margin-top: 0; }
 
-    input, textarea {
+    input {
       width: 100%;
       padding: 12px 14px;
       border: 2px solid #f8bbd0;
@@ -77,35 +48,13 @@
       transition: border-color 0.2s;
       font-family: inherit;
     }
+    input:focus { border-color: #e91e8c; }
 
-    input:focus, textarea:focus {
-      border-color: #e91e8c;
-    }
+    .valor-wrap { position: relative; }
+    .valor-wrap span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #ad1457; font-weight: 600; font-size: 1rem; pointer-events: none; }
+    .valor-wrap input { padding-left: 32px; }
 
-    .valor-wrap {
-      position: relative;
-    }
-
-    .valor-wrap span {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #ad1457;
-      font-weight: 600;
-      font-size: 1rem;
-      pointer-events: none;
-    }
-
-    .valor-wrap input {
-      padding-left: 32px;
-    }
-
-    .hint {
-      font-size: 0.75rem;
-      color: #b06090;
-      margin-top: 4px;
-    }
+    .hint { font-size: 0.75rem; color: #b06090; margin-top: 4px; }
 
     button[type="submit"] {
       width: 100%;
@@ -120,10 +69,69 @@
       cursor: pointer;
       transition: opacity 0.2s, transform 0.1s;
     }
-
     button[type="submit"]:hover { opacity: 0.9; }
     button[type="submit"]:active { transform: scale(0.98); }
     button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ---- Status badge ---- */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+      margin-top: 5px;
+    }
+    .badge.pendente   { background: #fff3e0; color: #e65100; }
+    .badge.a_caminho  { background: #e3f2fd; color: #1565c0; }
+    .badge.comprado   { background: #e8f5e9; color: #2e7d32; }
+
+    /* ---- Lista ---- */
+    .lista-section { width: 100%; max-width: 480px; margin-top: 28px; }
+
+    .lista-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      justify-content: center;
+    }
+
+    .tab {
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: #fff;
+      color: #ad1457;
+      transition: all 0.2s;
+    }
+    .tab.ativo { background: linear-gradient(135deg, #e91e8c, #ad1457); color: #fff; }
+
+    .item-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 12px rgba(136,14,79,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .item-card.comprado { opacity: 0.75; }
+
+    .item-info { flex: 1; min-width: 0; }
+    .item-nome { font-weight: 700; color: #333; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .item-link a { font-size: 0.8rem; color: #e91e8c; text-decoration: none; }
+    .item-link a:hover { text-decoration: underline; }
+
+    .item-direita { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .item-valor { font-weight: 800; color: #880e4f; font-size: 1rem; white-space: nowrap; }
 
     .toast {
       display: none;
@@ -141,69 +149,15 @@
       z-index: 999;
       white-space: nowrap;
     }
-
     .toast.error { background: #c62828; }
     .toast.show { display: block; animation: slideUp 0.3s ease; }
-
     @keyframes slideUp {
       from { opacity: 0; transform: translateX(-50%) translateY(12px); }
       to   { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    .lista-section {
-      width: 100%;
-      max-width: 480px;
-      margin-top: 28px;
-    }
-
-    .lista-section h3 {
-      color: #880e4f;
-      font-size: 1rem;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    .item-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 12px rgba(136,14,79,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .item-info { flex: 1; min-width: 0; }
-
-    .item-nome {
-      font-weight: 700;
-      color: #333;
-      font-size: 0.95rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .item-link a {
-      font-size: 0.8rem;
-      color: #e91e8c;
-      text-decoration: none;
-      word-break: break-all;
-    }
-
-    .item-link a:hover { text-decoration: underline; }
-
-    .item-valor {
-      font-weight: 800;
-      color: #880e4f;
-      font-size: 1rem;
-      white-space: nowrap;
-    }
-
     .loading { text-align: center; color: #ad1457; padding: 12px; font-size: 0.9rem; }
-    .empty { text-align: center; color: #b06090; padding: 12px; font-size: 0.9rem; }
+    .empty   { text-align: center; color: #b06090; padding: 12px; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -216,7 +170,6 @@
   <div class="card">
     <h2>✨ Adicionar desejo</h2>
     <form id="form">
-
       <label for="nome">Nome do presente *</label>
       <input type="text" id="nome" placeholder="Ex: Perfume Lancôme, Tenis Nike..." required />
 
@@ -235,7 +188,11 @@
   </div>
 
   <div class="lista-section">
-    <h3>Minha lista de desejos 🛍️</h3>
+    <div class="lista-tabs">
+      <button class="tab ativo" onclick="mudarAba('pendente', this)">🛍️ Quero ganhar</button>
+      <button class="tab" onclick="mudarAba('a_caminho', this)">🚚 A caminho</button>
+      <button class="tab" onclick="mudarAba('comprado', this)">✅ Já ganhei</button>
+    </div>
     <div id="lista"><div class="loading">Carregando...</div></div>
   </div>
 
@@ -248,31 +205,61 @@
     const { createClient } = supabase;
     const db = createClient(CONFIG.supabase.url, CONFIG.supabase.anonKey);
 
+    let todosItens = [];
+    let abaAtual = 'pendente';
+
+    const BADGE = {
+      pendente:  { texto: '⏳ Pendente',   classe: 'pendente'  },
+      a_caminho: { texto: '🚚 A caminho',  classe: 'a_caminho' },
+      comprado:  { texto: '✅ Já ganhei!', classe: 'comprado'  },
+    };
+
     async function carregarLista() {
       const { data, error } = await db
         .from('presentes')
         .select('*')
         .order('criado_em', { ascending: false });
 
-      const lista = document.getElementById('lista');
-
       if (error) {
-        lista.innerHTML = '<div class="empty">Erro ao carregar a lista 😕</div>';
+        document.getElementById('lista').innerHTML = '<div class="empty">Erro ao carregar 😕</div>';
         return;
       }
 
-      if (!data.length) {
-        lista.innerHTML = '<div class="empty">Nenhum desejo ainda... adicione o primeiro! 🌸</div>';
+      todosItens = data;
+      renderLista();
+    }
+
+    function mudarAba(aba, btn) {
+      abaAtual = aba;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+      btn.classList.add('ativo');
+      renderLista();
+    }
+
+    function renderLista() {
+      const lista = document.getElementById('lista');
+      const itens = todosItens.filter(i => i.status === abaAtual);
+
+      if (!itens.length) {
+        const msgs = {
+          pendente:  'Nenhum desejo ainda... adicione o primeiro! 🌸',
+          a_caminho: 'Nenhum presente a caminho ainda 🚚',
+          comprado:  'Nenhum presente recebido ainda 🎁',
+        };
+        lista.innerHTML = `<div class="empty">${msgs[abaAtual]}</div>`;
         return;
       }
 
-      lista.innerHTML = data.map(item => `
-        <div class="item-card">
+      lista.innerHTML = itens.map(item => `
+        <div class="item-card ${item.status === 'comprado' ? 'comprado' : ''}">
           <div class="item-info">
             <div class="item-nome">${escHtml(item.nome)}</div>
             ${item.link ? `<div class="item-link"><a href="${escHtml(item.link)}" target="_blank" rel="noopener">Ver produto 🔗</a></div>` : ''}
+            <span class="badge ${BADGE[item.status].classe}">${BADGE[item.status].texto}</span>
           </div>
-          <div class="item-valor">R$ ${Number(item.valor).toLocaleString('pt-BR', {minimumFractionDigits:2})}</div>
+          <div class="item-direita">
+            <div class="item-valor">R$ ${Number(item.valor).toLocaleString('pt-BR', {minimumFractionDigits:2})}</div>
+          </div>
         </div>
       `).join('');
     }
@@ -283,19 +270,16 @@
       btn.disabled = true;
       btn.textContent = 'Adicionando...';
 
-      const nome = document.getElementById('nome').value.trim();
-      const link = document.getElementById('link').value.trim() || null;
+      const nome  = document.getElementById('nome').value.trim();
+      const link  = document.getElementById('link').value.trim() || null;
       const valor = parseFloat(document.getElementById('valor').value);
 
-      const { error } = await db.from('presentes').insert([{ nome, link, valor }]);
+      const { error } = await db.from('presentes').insert([{ nome, link, valor, status: 'pendente' }]);
 
       btn.disabled = false;
       btn.textContent = 'Adicionar à lista 💖';
 
-      if (error) {
-        mostrarToast('Erro ao salvar. Tente de novo 😕', 'error');
-        return;
-      }
+      if (error) { mostrarToast('Erro ao salvar. Tente de novo 😕', 'error'); return; }
 
       document.getElementById('form').reset();
       mostrarToast('Desejo adicionado! 🎉');
